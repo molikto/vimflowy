@@ -26,6 +26,9 @@ type PluginMetadata = {
 
 type PluginEnableFn<V = void> = (api: PluginApi) => Promise<V> | V;
 type PluginDisableFn<V = void> =  (api: PluginApi, value: V) => Promise<void> | void;
+
+type PluginSettingsUi = ((api: PluginApi) => React.ReactNode) | null;
+
 type RegisteredPlugin<V = void> = {
   name: string;
   version?: number;
@@ -33,6 +36,7 @@ type RegisteredPlugin<V = void> = {
   description?: string | React.ReactNode;
   enable: PluginEnableFn<V>;
   disable: PluginDisableFn<V>;
+  settings: PluginSettingsUi;
 };
 
 // global set of registered plugins
@@ -322,6 +326,7 @@ export const registerPlugin = function<V = void>(
   plugin_metadata: PluginMetadata,
   enable: PluginEnableFn<V>,
   disable: PluginDisableFn<V>,
+  settings: PluginSettingsUi = null
 ) {
   plugin_metadata.version = plugin_metadata.version || 1;
   plugin_metadata.author = plugin_metadata.author || 'anonymous';
@@ -338,6 +343,7 @@ export const registerPlugin = function<V = void>(
         `The plugin '${plugin.name}' was disabled but doesn't support online disable functionality. Refresh to disable.`
       );
     }),
+    settings
   };
   PLUGINS[plugin.name] = plugin;
 };

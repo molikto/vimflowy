@@ -117,8 +117,9 @@ class RowComponent extends React.Component<RowProps, {}> {
 
     const infoChildren = session.applyHook('renderAfterLine', [], hooksInfo);
 
+    const highlightAddedClass = has_cursor || has_highlight ? ' monospace' : '';
     return (
-      <div key='text' className='node-text'
+      <div key='text' className={'node-text' + highlightAddedClass}
         onClick={this.onClick}
         style={this.props.style}
       >

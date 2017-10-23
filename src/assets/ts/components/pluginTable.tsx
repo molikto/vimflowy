@@ -49,6 +49,12 @@ export default class PluginsTableComponent extends React.Component<Props, {}> {
             }}>
               Actions
             </th>
+            <th style={{
+              ...getStyles(this.props.clientStore, ['theme-trim']),
+              maxWidth: '10%',
+            }}>
+              Settings
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -70,6 +76,7 @@ export default class PluginsTableComponent extends React.Component<Props, {}> {
                   };
                   btnText = 'Enable';
                 }
+                const plugin = getPlugin(name) || {};
                 if (btnText) {
                   actions.push(
                     <div key={btnText} onClick={btnClick} className='btn'
@@ -106,9 +113,14 @@ export default class PluginsTableComponent extends React.Component<Props, {}> {
                 } else if (status === PluginStatus.UNREGISTERED) {
                   statusText = 'Unregistered';
                 }
-
-                const plugin = getPlugin(name) || {};
                 const tdStyle = { padding: 5};
+                let settings = null;
+                if (plugin.settings != null) {
+                  const api = pluginManager.getInfo(name).api;
+                  if (api !== undefined) {
+                    settings = plugin.settings(api);
+                  }
+                }
                 return (
                   <tr key={name}
                       style={{
@@ -165,6 +177,14 @@ export default class PluginsTableComponent extends React.Component<Props, {}> {
                       }}
                     >
                       {actions}
+                    </td>
+                    <td className='center'
+                      style={{
+                        ...getStyles(this.props.clientStore, ['theme-trim']),
+                        ...tdStyle,
+                      }}
+                    >
+                      { settings }
                     </td>
                   </tr>
                 );
