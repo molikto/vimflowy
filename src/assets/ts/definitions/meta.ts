@@ -10,4 +10,3 @@ keyDefinitions.registerAction(new Action(
     sequence: SequenceAction.DROP,
   },
 ));
-
