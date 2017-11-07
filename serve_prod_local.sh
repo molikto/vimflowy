@@ -1,1 +1,1 @@
-npm run build &&  npm run startprod -- --db sqlite --dbfolder test_sqlite_db
+npm run build &&  npm run startprod -- --db sqlite --dbfolder ~/Library/Mobile\ Documents/com~apple~CloudDocs/Documents/Vimflowy
